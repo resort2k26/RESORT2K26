@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resort - Cuenta Regresiva</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* Fondo de playa más despejado para mejor visibilidad */
+            background: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.45)),
+                        url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1920&auto=format&fit=crop') no-repeat center center fixed;
+            background-size: cover;
+            color: #ffffff;
+            padding: 20px;
+        }
+
+        main {
+            width: 100%;
+            max-width: 680px;
+            margin: 0 auto;
+        }
+
+        /* Tipografía con soporte prioritario para Apple Color Emoji */
+        .emoji {
+            font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Android Emoji", sans-serif;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        section {
+            /* Vidrio ultra translúcido para apreciar el fondo al máximo */
+            background: rgba(10, 15, 30, 0.35);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 36px;
+            padding: 48px 36px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3),
+                        0 0 30px rgba(0, 242, 254, 0.2);
+        }
+
+        /* Badge superior */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 242, 254, 0.2);
+            border: 1px solid rgba(0, 242, 254, 0.6);
+            padding: 8px 22px;
+            border-radius: 100px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            margin-bottom: 28px;
+            text-transform: uppercase;
+            color: #00f2fe;
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.35);
+        }
+
+        /* Título Principal */
+        h1 {
+            font-size: 3.3rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+            color: #ffffff;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Descripción */
+        p {
+            font-size: 1.08rem;
+            color: #f1f5f9;
+            margin-bottom: 36px;
+            line-height: 1.6;
+            font-weight: 500;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        p strong {
+            color: #ffdd59;
+            font-weight: 800;
+            text-shadow: 0 0 12px rgba(255, 221, 89, 0.5);
+        }
+
+        /* Bloques de Cuenta Regresiva súper translúcidos */
+        .countdown-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .time-card {
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 22px;
+            padding: 22px 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            transition: all 0.3s ease;
+        }
+
+        .time-card:hover {
+            background: rgba(0, 242, 254, 0.2);
+            border-color: rgba(0, 242, 254, 0.7);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 25px rgba(0, 242, 254, 0.3);
+        }
+
+        .time-card span:first-child {
+            font-size: 3rem;
+            font-weight: 900;
+            color: #ffffff;
+            line-height: 1;
+            margin-bottom: 8px;
+            font-feature-settings: "tnum";
+            text-shadow: 0 0 18px rgba(255, 255, 255, 0.6);
+        }
+
+        .time-card span:last-child {
+            font-size: 0.72rem;
+            font-weight: 800;
+            color: #38ef7d;
+            letter-spacing: 2px;
+            text-shadow: 0 0 8px rgba(56, 239, 125, 0.5);
+        }
+
+        /* Banner de Fecha */
+        .date-badge {
+            background: rgba(255, 221, 89, 0.18);
+            border: 1px solid rgba(255, 221, 89, 0.5);
+            border-radius: 100px;
+            padding: 10px 26px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.92rem;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            margin-bottom: 36px;
+            color: #ffdd59;
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            box-shadow: 0 0 20px rgba(255, 221, 89, 0.3);
+        }
+
+        /* Sección de Progreso */
+        .progress-container {
+            margin-bottom: 36px;
+            text-align: left;
+        }
+
+        .progress-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.82rem;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            margin-bottom: 12px;
+            color: #38ef7d;
+            text-shadow: 0 0 10px rgba(56, 239, 125, 0.4);
+        }
+
+        .progress-percent-val {
+            color: #00f2fe;
+            font-size: 0.98rem;
+            font-weight: 900;
+            font-feature-settings: "tnum";
+            text-shadow: 0 0 10px rgba(0, 242, 254, 0.5);
+        }
+
+        .progress-track {
+            width: 100%;
+            height: 12px;
+            background: rgba(0, 0, 0, 0.35);
+            border-radius: 100px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            padding: 2px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #ff007f, #ffdd59, #38ef7d, #00f2fe);
+            background-size: 200% 200%;
+            animation: gradientAnimation 3s ease infinite;
+            border-radius: 100px;
+            transition: width 0.3s ease;
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.9);
+        }
+
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Footer */
+        footer {
+            font-size: 0.95rem;
+            color: #f1f5f9;
+            font-weight: 600;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            section {
+                padding: 36px 20px;
+                border-radius: 28px;
+            }
+
+            h1 {
+                font-size: 2.3rem;
+            }
+
+            .countdown-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            .time-card span:first-child {
+                font-size: 2.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <main>
+        <section>
+
+            <div class="badge">
+                <span class="emoji">⏳</span> CUENTA REGRESIVA ACTIVA
+            </div>
+
+            <h1>
+                El gran día<br>se acerca.
+            </h1>
+
+            <p>
+                Cada segundo nos acerca más al<br>
+                <strong>Grand Palladium Punta Cana Resort &amp; Spa</strong><br>
+                Prepárate para una experiencia inolvidable.
+            </p>
+
+            <div class="countdown-grid">
+                <div class="time-card">
+                    <span id="days">00</span>
+                    <span>DÍAS</span>
+                </div>
+
+                <div class="time-card">
+                    <span id="hours">00</span>
+                    <span>HORAS</span>
+                </div>
+
+                <div class="time-card">
+                    <span id="minutes">00</span>
+                    <span>MINUTOS</span>
+                </div>
+
+                <div class="time-card">
+                    <span id="seconds">00</span>
+                    <span>SEGUNDOS</span>
+                </div>
+            </div>
+
+            <div class="date-badge">
+                <span class="emoji">📅</span> 30 DE OCTUBRE DE 2026
+            </div>
+
+            <div class="progress-container">
+                <div class="progress-labels">
+                    <span>PROGRESO</span>
+                    <span id="progress-percent" class="progress-percent-val">0.0%</span>
+                </div>
+                <div class="progress-track">
+                    <div class="progress-fill" id="progress-bar"></div>
+                </div>
+            </div>
+
+            <footer>
+                Cada segundo cuenta. <span class="emoji">⏰</span>
+            </footer>
+
+        </section>
+    </main>
+
+    <script>
+        // Fecha objetivo: 30 de Octubre de 2026 a las 00:00:00
+        const targetDate = new Date("2026-10-30T00:00:00").getTime();
+        
+        // La cuenta inició exactamente 79 días antes del viaje
+        const totalDays = 79;
+        const startDate = targetDate - (totalDays * 24 * 60 * 60 * 1000);
+
+        function updateTimer() {
+            const now = new Date().getTime();
+            const difference = targetDate - now;
+
+            if (difference <= 0) {
+                document.getElementById("days").innerText = "00";
+                document.getElementById("hours").innerText = "00";
+                document.getElementById("minutes").innerText = "00";
+                document.getElementById("seconds").innerText = "00";
+                document.getElementById("progress-bar").style.width = "100%";
+                document.getElementById("progress-percent").innerText = "100%";
+                return;
+            }
+
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerText = String(days).padStart(2, '0');
+            document.getElementById("hours").innerText = String(hours).padStart(2, '0');
+            document.getElementById("minutes").innerText = String(minutes).padStart(2, '0');
+            document.getElementById("seconds").innerText = String(seconds).padStart(2, '0');
+
+            // Cálculo del porcentaje exacto con 1 decimal
+            const totalDuration = targetDate - startDate;
+            const elapsedTime = now - startDate;
+            let percentage = Math.min(100, Math.max(0, (elapsedTime / totalDuration) * 100));
+            
+            const formattedPercent = percentage.toFixed(1) + "%";
+            document.getElementById("progress-bar").style.width = formattedPercent;
+            document.getElementById("progress-percent").innerText = formattedPercent;
+        }
+
+        updateTimer();
+        setInterval(updateTimer, 1000);
+    </script>
+</body>
+</html>
